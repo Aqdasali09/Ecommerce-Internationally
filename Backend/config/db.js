@@ -1,23 +1,36 @@
-const { Pool } = require('pg');
+// Load environment variables from .env file
 require('dotenv').config();
 
-// Create a new pool instance using the connection string
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }, // Needed for Supabase SSL connection
-});
+// Import Supabase client library
+const { createClient } = require('@supabase/supabase-js');
 
-// Log successful connection in development
-if (process.env.NODE_ENV === 'development') {
-  console.log('PostgreSQL pool initialized with connection string');
+// Check if environment variables are set
+if (!process.env.REACT_APP_SUPABASE_URL || !process.env.REACT_APP_SUPABASE_ANON_KEY) {
+  throw new Error("Missing SUPABASE_URL or SUPABASE_ANON_KEY in .env file");
 }
 
-// Listen for pool-level errors
-pool.on('error', (err) => {
-  console.error('Unexpecte error on idle PostgreSQL client', err);
-  process.exit(-1);
-});
+// Initialize Supabase client
+const supabase = createClient(
+  process.env.REACT_APP_SUPABASE_URL,
+  process.env.REACT_APP_SUPABASE_ANON_KEY
+);
+// Test the connection by querying a table
+(async () => {
+  try {
+    const { data, error } = await supabase
+      .from('users') // Replace with a known table name in your Supabase database
+      .select('id') // Replace 'id' with a lightweight column to test connection
+      .limit(1);
 
-module.exports = {
-  query: (text, params) => pool.query(text, params),
-};
+    if (error) {
+      console.error("Failed to connect to Supabase:", error.message);
+    } else {
+      console.log("Successfully connected to Supabase!");
+    }
+  } catch (err) {
+    console.error("Unexpected error while connecting to Supabase:", err.message);
+  }
+})();
+
+// Export the Supabase client for use in other parts of the app
+module.exports = supabase;

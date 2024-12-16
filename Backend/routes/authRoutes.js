@@ -1,25 +1,45 @@
-// routes/authRoutes.js
 const express = require('express');
-const db = require('../config/db');
+const { signup,login,updateProfile} = require('../controllers/authController');
 const router = express.Router();
 
-// Register a new user
-router.get('/register', async (req, res) => {
-  const { username, email, password } = req.body;
-
+// Route for signing up a user
+router.post('/signup', async (req, res) => {
   try {
-    const result = await db.query(
-      'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *',
-      [username, email, password]
-    );
+    const { email, password, full_name, avatar_url, bio, profileimgdata, role } = req.body;
 
-    res.status(201).json({
-      message: 'User registered successfully',
-      user: result.rows[0],
-    });
+    // Call the signup function (from auth.js)
+    await signup(req, res);
+
   } catch (error) {
-    console.error('Database error:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.log(error)
+  }
+});
+
+// Route for logging in a user
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Call the login function (from auth.js)
+    await login(req, res);
+
+    res.status(200).json({ message: 'Login successful!' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Route for updating user profile (profile image, bio, role)
+router.put('/updateProfile', async (req, res) => {
+  try {
+    const { user_id, full_name, avatar_url, bio, profileimgdata, role } = req.body;
+
+    // Call the updateProfile function (from auth.js)
+    await updateProfile(req, res);
+
+    res.status(200).json({ message: 'Profile updated successfully!' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
