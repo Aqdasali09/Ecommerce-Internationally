@@ -34,11 +34,17 @@ module.exports = {
       },
       animation: {
         fadeIn: 'fadeIn 1s ease-in forwards',
+        "pulse-slow": "pulse 2s infinite", // Slow beating
+        "spin-slow": "spin 3s linear infinite", // Slow spinning
       },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
+        },
+        pulse: {
+          "0%, 100%": { transform: "scale(1)", opacity: 1 },
+          "50%": { transform: "scale(1.1)", opacity: 0.8 }, // Pulsating effect
         },
       },
     },

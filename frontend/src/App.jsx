@@ -5,19 +5,16 @@ import ForgotPassword from './Components/ForgetPassword';
 import Register from './Components/Register';
 import Login from './Components/Login';
 import Homepage from './Components/Homepage';
+import PageBuilder from './Components/PageBuilder/PageBuilder';
+import Navbar from './Components/Navbar';
 
 function App() {
   return (
     <>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        {/* Additional routes can be added here */}
-      </Routes>
-    </Router>
+   
+    
+
+    <PageBuilder />
     </>
   );
 }

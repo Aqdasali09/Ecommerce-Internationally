@@ -54,7 +54,7 @@ const Homepage = () => {
       </div>
 
       {/* Navbar */}
-      <Navbar/>
+    
 
       {/* First Split Container */}
       <div
