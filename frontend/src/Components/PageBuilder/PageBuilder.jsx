@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { SparklesIcon } from "@heroicons/react/16/solid";
-import Step1 from "./Step1";
 import SideBar from "./SideBar";
-import StepTracker from "./StepTracker";
+import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
+import StepTracker from "./StepTracker";
 function PageBuilder() {
   const [Step, setStep] = useState(1);
   return (
@@ -14,7 +13,7 @@ function PageBuilder() {
 
 <SideBar />
       {/* Main Content */}
-      <div className="w-2/3 p-8">
+      <div className="w-2/3 p-8 h-[96vh] overflow-auto">
         {/* Step Indicator */}
         <StepTracker Step={Step} setStep={setStep}  />
         {Step === 1 && <Step1 setStep={setStep} />}
