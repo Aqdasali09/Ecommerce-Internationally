@@ -1,19 +1,14 @@
 import React, { useState } from "react";
 
-function Step2() {
+function Step2({ setStep }) {
   const [storeName, setStoreName] = useState("");
   const [storeSlogan, setStoreSlogan] = useState("");
   const [storeLogo, setStoreLogo] = useState(null);
-  const [primaryColor, setPrimaryColor] = useState("#4F46E5");
+  const [primaryColor, setPrimaryColor] = useState("rgb(106 30 85)");
   const [secondaryColor, setSecondaryColor] = useState("#22C55E");
-  const [background, setBackground] = useState("#FFFFFF");
+  const [background, setBackground] = useState("black");
+  const [textColor, setTextColor] = useState("#D8D8E3");
   const [fontStyle, setFontStyle] = useState("Arial");
-  const [socialLinks, setSocialLinks] = useState({
-    facebook: "",
-    twitter: "",
-    instagram: "",
-  });
-  const [darkMode, setDarkMode] = useState(false);
 
   const handleLogoUpload = (e) => {
     const file = e.target.files[0];
@@ -24,31 +19,11 @@ function Step2() {
 
   return (
     <div
-      className={`max-w-4xl mx-auto p-8 rounded-lg shadow-lg transition-colors ${
-        darkMode ? "bg-black text-white" : "bg-white text-gray-800"
-      }`}
-      style={{
-        border: "2px solid #6A1E55",
-      }}
+      className="max-w-4xl mx-auto p-8 rounded-lg shadow-lg"
+      style={{ backgroundColor: background, color: textColor, fontFamily: fontStyle }}
     >
-      {/* Dark/Light Theme Toggle */}
-      <div className="flex items-center gap-4 mt-4">
-        <span className="text-gray-700 font-medium">
-          {darkMode ? "Dark Theme" : "Light Theme"}
-        </span>
-        <label className="relative inline-flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            checked={darkMode}
-            onChange={() => setDarkMode(!darkMode)}
-            className="sr-only peer"
-          />
-          <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:bg-gray-700"></div>
-        </label>
-      </div>
-
       {/* Heading */}
-      <h2 className="text-3xl font-bold mb-6 text-center">Customize Your Store</h2>
+      <h2 className="text-2xl font-semibold mb-6">Customize Your Store</h2>
 
       <div className="space-y-6">
         {/* Store Name */}
@@ -59,12 +34,8 @@ function Step2() {
             placeholder="Enter store name"
             value={storeName}
             onChange={(e) => setStoreName(e.target.value)}
-            className="w-full px-4 py-3 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            style={{
-              border: "1px solid #6A1E55",
-              backgroundColor: "#000",
-              color: "#d8d8e3",
-            }}
+            className="w-full px-4 py-2 rounded border border-[#6A1E55] focus:ring-2 focus:ring-[#A64D79] focus:outline-none"
+            style={{ backgroundColor: "#1A1A1D", color: textColor }}
           />
         </div>
 
@@ -76,27 +47,88 @@ function Step2() {
             placeholder="Enter a catchy slogan"
             value={storeSlogan}
             onChange={(e) => setStoreSlogan(e.target.value)}
-            className="w-full px-4 py-3 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            style={{
-              border: "1px solid #6A1E55",
-              backgroundColor: "#000",
-              color: "#d8d8e3",
-            }}
+            className="w-full px-4 py-2 rounded border border-[#6A1E55] focus:ring-2 focus:ring-[#A64D79] focus:outline-none"
+            style={{ backgroundColor: "#1A1A1D", color: textColor }}
           />
         </div>
 
-        {/* Save Button */}
-        <div className="mt-8 flex justify-center">
-          <button
-            onClick={() => alert("Store customization saved!")}
-            className="px-6 py-3 font-semibold rounded shadow transition"
-            style={{
-              backgroundColor: "#6A1E55",
-              color: "#fff",
-              border: "1px solid #6A1E55",
-            }}
+        {/* Primary Color */}
+        <div>
+          <label className="block font-medium mb-2">Primary Color</label>
+          <input
+            type="color"
+            value={primaryColor}
+            onChange={(e) => setPrimaryColor(e.target.value)}
+            className="w-full h-10 border rounded"
+          />
+        </div>
+
+        {/* Secondary Color */}
+        <div>
+          <label className="block font-medium mb-2">Secondary Color</label>
+          <input
+            type="color"
+            value={secondaryColor}
+            onChange={(e) => setSecondaryColor(e.target.value)}
+            className="w-full h-10 border rounded"
+          />
+        </div>
+
+        {/* Background Color */}
+        <div>
+          <label className="block font-medium mb-2">Background Color</label>
+          <input
+            type="color"
+            value={background}
+            onChange={(e) => setBackground(e.target.value)}
+            className="w-full h-10 border rounded"
+          />
+        </div>
+
+        {/* Text Color */}
+        <div>
+          <label className="block font-medium mb-2">Text Color</label>
+          <input
+            type="color"
+            value={textColor}
+            onChange={(e) => setTextColor(e.target.value)}
+            className="w-full h-10 border rounded"
+          />
+        </div>
+
+        {/* Font Style */}
+        <div>
+          <label className="block font-medium mb-2">Font Style</label>
+          <select
+            value={fontStyle}
+            onChange={(e) => setFontStyle(e.target.value)}
+            className="w-full px-4 py-2 rounded border border-[#6A1E55] focus:ring-2 focus:ring-[#A64D79] focus:outline-none"
+            style={{ backgroundColor: "#1A1A1D", color: textColor }}
           >
-            Save Customization
+            <option value="Arial">Arial</option>
+            <option value="Helvetica">Helvetica</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+          </select>
+        </div>
+
+        {/* Navigation Buttons */}
+        <div className="flex justify-between mt-6">
+          <button
+            type="button"
+            className="px-6 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition duration-300"
+            onClick={() => setStep(1)}
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            className="px-6 py-2 bg-[#6A1E55] text-[#D8D8E3] rounded hover:bg-[#A64D79] transition duration-300"
+            style={{ backgroundColor: primaryColor, color: textColor }}
+            onClick={() => setStep(3)}
+          >
+            Next
           </button>
         </div>
       </div>
