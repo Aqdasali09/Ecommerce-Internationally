@@ -1,44 +1,37 @@
-// components/Register.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Register() {
   return (
-    <section className="bg-gray-50">
+    <section className="bg-[#1A1A1D]">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen">
         <a
           href="/"
-          className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
-          style={{ fontFamily: "'Serif', Georgia, sans-serif" }}
+          className="flex items-center mb-6 text-2xl font-semibold text-[#D3D3D3]"
+          style={{ fontFamily: "'Georgia', serif" }}
         >
-          {/* <img
-            className="w-8 h-8 mr-2"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
-            alt="logo"
-          /> */}
-          E-Commerce Internationally
+          {/* E-Commerce Internationally */}
         </a>
         <div
-          className="w-full max-w-md bg-white rounded-lg shadow-md"
+          className="w-full max-w-md bg-[#2A2A2E] rounded-lg shadow-md"
           style={{
-            border: '1px solid #E5E5E5',
+            border: '1px solid #6A1E55',
           }}
         >
-          {/* Navy Blue Background Behind Heading */}
           <div
             className="relative inline-block w-full"
             style={{
-              backgroundColor: 'rgb(31 41 55)', // Navy blue background
+              // backgroundColor: '#6A1E55', // Purple background for title
               padding: '0.2rem 0.5rem',
               textAlign: 'center',
             }}
           >
             <h1
-              className="text-2xl font-bold leading-tight tracking-tight"
+              className="text-2xl font-bold text-white"
               style={{
-                color: '#FFFFFF', // White text
-                fontFamily: "'Serif', Georgia, sans-serif",
+                fontFamily: "'Georgia', serif",
                 margin: 0,
+                padding: 2,
               }}
             >
               Create an account
@@ -52,7 +45,7 @@ function Register() {
                   htmlFor="email"
                   className="block mb-2 text-sm font-medium"
                   style={{
-                    color: '#333333',
+                    color: '#D3D3D3',
                   }}
                 >
                   Your email
@@ -67,6 +60,7 @@ function Register() {
                     backgroundColor: '#F8F8F8',
                     border: '1px solid #D5D5D5',
                     color: '#333333',
+                    focusBorderColor: '#6A1E55',
                   }}
                   required
                 />
@@ -76,7 +70,7 @@ function Register() {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium"
                   style={{
-                    color: '#333333',
+                    color: '#D3D3D3',
                   }}
                 >
                   Password
@@ -91,6 +85,7 @@ function Register() {
                     backgroundColor: '#F8F8F8',
                     border: '1px solid #D5D5D5',
                     color: '#333333',
+                    focusBorderColor: '#6A1E55',
                   }}
                   required
                 />
@@ -100,7 +95,7 @@ function Register() {
                   htmlFor="confirm-password"
                   className="block mb-2 text-sm font-medium"
                   style={{
-                    color: '#333333',
+                    color: '#D3D3D3',
                   }}
                 >
                   Confirm password
@@ -115,54 +110,22 @@ function Register() {
                     backgroundColor: '#F8F8F8',
                     border: '1px solid #D5D5D5',
                     color: '#333333',
+                    focusBorderColor: '#6A1E55',
                   }}
                   required
                 />
               </div>
-              <div className="flex items-start">
-                <div className="flex items-center h-5">
-                  <input
-                    id="terms"
-                    type="checkbox"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300"
-                    style={{
-                      border: '1px solid #D5D5D5',
-                    }}
-                    required
-                  />
-                </div>
-                <div className="ml-3 text-sm">
-                  <label
-                    htmlFor="terms"
-                    className="font-light"
-                    style={{
-                      color: '#666666',
-                    }}
-                  >
-                    I accept the{' '}
-                    <a
-                      href="#"
-                      className="font-medium"
-                      style={{
-                        color: '#007BFF',
-                      }}
-                    >
-                      Terms and Conditions
-                    </a>
-                  </label>
-                </div>
-              </div>
               <button
-  type="submit"
-  className="w-full px-4 py-2 text-sm font-medium rounded-lg focus:outline-none focus:ring bg-[rgba(195,217,245,1)] text-black hover:bg-[rgba(170,200,240,1)] focus:ring-[rgba(195,217,245,0.5)] focus:ring-opacity-50"
->
-  Create an account
-</button>
+                type="submit"
+                className="w-full px-4 py-2 text-sm font-medium rounded-lg focus:outline-none focus:ring bg-[#6A1E55] text-[#D3D3D3] hover:bg-[#8E3A69] focus:ring-[#6A1E55] focus:ring-opacity-50"
+              >
+                Create an account
+              </button>
 
               <p
                 className="text-sm font-light"
                 style={{
-                  color: '#333333',
+                  color: '#D3D3D3',
                 }}
               >
                 Already have an account?{' '}
@@ -170,7 +133,7 @@ function Register() {
                   to="/login"
                   className="font-medium"
                   style={{
-                    color: '#007BFF', // Link color consistent with theme
+                    color: '#6A1E55', // Link color consistent with theme
                   }}
                 >
                   Login here
