@@ -1,8 +1,11 @@
 import React from 'react';
+import { useContext } from 'react';
 import LoginForm from './LoginForm';
 import { Link } from 'react-router-dom';
-
+import { UserContext } from './UserContext';
 function Login() {
+  const { setUserEmail } = useContext(UserContext);
+
   return (
     <div
       className="min-h-screen flex items-center justify-center"

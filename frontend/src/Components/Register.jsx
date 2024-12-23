@@ -1,7 +1,56 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import axios from 'axios'; // Axios for API requests
 import { Link } from 'react-router-dom';
-
+import CONSTANT_URL from '../../constants';
+import { UserContext } from './UserContext';
 function Register() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { setUserEmail } = useContext(UserContext);
+
+
+  const navigate = useNavigate(); // Hook for navigation
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMessage('');
+
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      setLoading(false);
+      setErrorMessage('Passwords do not match.');
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${CONSTANT_URL}/api/auth/signup`, {
+        email,
+        password,
+      });
+
+      if (response.status === 201) {
+        console.log(response.data)
+        localStorage.setItem('token', response.data.token); // Save token to localStorage
+      setUserEmail(response.data.user.email); // Update context
+        
+        // On successful signup, redirect to login page
+        navigate('/page-builder');
+      }
+    } catch (error) {
+      setLoading(false);
+      if (error.response) {
+        setErrorMessage(error.response.data.message || 'An error occurred');
+      } else {
+        setErrorMessage('Network error. Please try again later.');
+      }
+    }
+  };
+
   return (
     <section className="bg-[#1A1A1D]">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen">
@@ -21,7 +70,6 @@ function Register() {
           <div
             className="relative inline-block w-full"
             style={{
-              // backgroundColor: '#6A1E55', // Purple background for title
               padding: '0.2rem 0.5rem',
               textAlign: 'center',
             }}
@@ -39,7 +87,7 @@ function Register() {
           </div>
 
           <div className="p-6 space-y-4">
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="email"
@@ -62,6 +110,8 @@ function Register() {
                     color: '#333333',
                     focusBorderColor: '#6A1E55',
                   }}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
@@ -87,6 +137,8 @@ function Register() {
                     color: '#333333',
                     focusBorderColor: '#6A1E55',
                   }}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
@@ -112,14 +164,20 @@ function Register() {
                     color: '#333333',
                     focusBorderColor: '#6A1E55',
                   }}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
               </div>
+              {errorMessage && (
+                <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+              )}
               <button
                 type="submit"
                 className="w-full px-4 py-2 text-sm font-medium rounded-lg focus:outline-none focus:ring bg-[#6A1E55] text-[#D3D3D3] hover:bg-[#8E3A69] focus:ring-[#6A1E55] focus:ring-opacity-50"
+                disabled={loading}
               >
-                Create an account
+                {loading ? 'Creating Account...' : 'Create an account'}
               </button>
 
               <p

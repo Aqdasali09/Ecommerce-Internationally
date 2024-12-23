@@ -7,7 +7,7 @@ export default function StepTracker({ Step,setStep }) {
       <button
         onClick={()=>setStep(1)}
         className={`px-4 py-2 rounded ${
-          Step === 1 ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-600"
+          Step === 1 ? "bg-[#6d2356] text-white" : "bg-gray-200 text-gray-600"
         }`}
       >
         Step 1
@@ -15,7 +15,7 @@ export default function StepTracker({ Step,setStep }) {
       <button
        onClick={()=>setStep(2)}
         className={`px-4 py-2 rounded ${
-          Step === 2 ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-600"
+          Step === 2 ? "bg-[#6d2356] text-white" : "bg-gray-200 text-gray-600"
         }`}
       >
         Step 2
@@ -23,7 +23,7 @@ export default function StepTracker({ Step,setStep }) {
       <button
        onClick={()=>setStep(3)}
         className={`px-4 py-2 rounded ${
-          Step === 3 ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-600"
+          Step === 3 ? "bg-[#6d2356] text-white" : "bg-gray-200 text-gray-600"
         }`}
       >
         Step 3

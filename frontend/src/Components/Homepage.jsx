@@ -56,48 +56,54 @@ const Homepage = () => {
 
       {/* First Split Container */}
       <div
-        className="flex flex-col md:flex-row items-center justify-between px-10 py-24"
-        style={{
-          backgroundColor: "#1A1A1D",
-        }}
-      >
-        <div className="md:w-1/2 mb-10 md:mb-0">
-          <h1
-            className="text-4xl font-bold mb-4 inline-block px-8 py-2"
-            style={{
-              color: "#D3D3D3", // Light gray for the text
-              borderRadius: "0.25rem", // Slight rounding
-              fontFamily: `'Georgia', serif`,
-            }}
-          >
-            Welcome to Our Store!
-          </h1>
+  className="relative flex flex-col md:flex-row items-center justify-between h-[85vh] px-10 py-24"
+  style={{
+    backgroundColor: "#1A1A1D", // Fallback background color
+  }}
+>
+  {/* Video as Background */}
+  <video
+    className="absolute top-0 left-0 w-full h-full object-cover z-0"
+    src="bgvideo.mp4"
+    autoPlay
+    loop
+    muted
+    playsInline
+  ></video>
 
-          <p
-            className="text-lg"
-            style={{
-              color: "#D3D3D3", // Light gray for the text
-              fontFamily: `'Georgia', serif`,
-            }}
-          >
-            Discover the best deals on your favorite products. Shop now and enjoy exclusive discounts.
-          </p>
-        </div>
+  {/* Black Overlay */}
+  <div
+    className="absolute top-0 left-0 w-full h-full z-5"
+    style={{
+      backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent black
+    }}
+  ></div>
 
-        <div className="md:w-1/2">
-          <iframe
-            className="rounded-lg shadow-md w-full h-80"
-            style={{
-              border: "none", // Removed border color
-            }}
-            src="https://www.youtube.com/embed/DXj4DVj-q98?autoplay=1&mute=1&loop=1"
-            title="YouTube video"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-      </div>
+  {/* Content on Top of Video */}
+  <div className="relative z-10 md:w-1/2 mb-10 md:mb-0">
+    <h1
+      className="text-4xl font-bold mb-4 inline-block px-8 py-2"
+      style={{
+        color: "#D3D3D3", // Light gray for the text
+        borderRadius: "0.25rem", // Slight rounding
+        fontFamily: `'Georgia', serif`,
+      }}
+    >
+      Create Your Own Store!
+    </h1>
+
+    <p
+      className="text-lg"
+      style={{
+        color: "#D3D3D3", // Light gray for the text
+        fontFamily: `'Georgia', serif`,
+      }}
+    >
+      Build your store effortlessly with our easy-to-use platform.
+      Customize every detail and start selling in no time!
+    </p>
+  </div>
+</div>
 
       {/* Review Section */}
       <div
@@ -121,8 +127,7 @@ const Homepage = () => {
               fontFamily: `'Georgia', serif`,
             }}
           >
-            "This store offers an amazing shopping experience with great products and customer service!"
-          </p>
+It’s incredibly easy to use, even for beginners. I was able to create my online store quickly, customize everything to match my brand, and start selling right away. Highly recommend it!          </p>
           <p
             className="font-semibold inline-block px-6 py-2 text-white"
             style={{

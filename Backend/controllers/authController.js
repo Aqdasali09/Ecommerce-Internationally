@@ -1,103 +1,134 @@
-// auth.js
-const db = require('@supabase/supabase-js'); // Import Supabase client
-const supabase=require('../config/db')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const supabase  = require('../config/db'); // Assuming you're still using Supabase for database operations
+
+// Signup function (Custom Auth)
 async function signup(req, res) {
-    try {
-      const { email, password, Full_name, avatar_url, Bio, profileimgdata, role } = req.body;
-      // Create a new user in Supabase Auth
-      const { data: signupData, error: signupError } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-  
-      console.log('Sign-up response:', { signupData, signupError });
-       
-      // Insert the user's additional data into the custom 'users' table
-      const { data: insertData, error: insertError } = await supabase
-        .from('users')
-        .insert([
-          {
-            id: signupData.user.id,  // Use the Supabase Auth user ID
-            full_name:Full_name,
-            avatar_url: avatar_url,
-            bio: Bio,
-            profileimgdata: profileimgdata,  // Insert the profile image as bytes
-            role: role || 'Customer',        // Default to 'Customer' if role is not provided
-          },
-        ]);
-  
-      // If there's an error during insertion, return the error and stop execution
-      if (insertError) {
-     //   return res.status(400).json({ message: insertError.message });
-      }
-  
-      // If everything is successful, return the success response
-  return res.status(201).json({ message: 'User created successfully', user: insertData });
-  
-    } catch (error) {
-      // Catch any unexpected errors and return a general error message
-      console.log(error);
-    return res.status(500).json({ message: 'Something went wrong' });
+  try {
+    const { email, password, first_name, last_name } = req.body;
+
+    // Check if email already exists in the 'Users' table
+    const { data: existingUser, error: existingUserError } = await supabase
+      .from('users')
+      .select('email')
+      .eq('email', email)
+      .single();
+
+    if (existingUserError && existingUserError.code !== 'PGRST116') {
+      // If the error is not "no rows found", return a 500 error
+      return res.status(500).json({ message: 'Error checking email availability' });
     }
+
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email already exists' });
+    }
+
+    // Hash the password before storing it
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert new user into the 'Users' table with hashed password
+    const { data: insertData, error: insertError } = await supabase
+      .from('users')
+      .insert([
+        {
+          email,
+          passwordhash: hashedPassword, // Store the hashed password
+          firstname: first_name,
+          lastname: last_name,
+        },
+      ])
+      .select()
+      .single(); // Ensure we return the inserted data
+
+    if (insertError) {
+      return res.status(400).json({ message: insertError.message });
+    }
+
+    // Create JWT token
+    const token = jwt.sign(
+      { userId: insertData.userid, email: insertData.email },
+      process.env.JWT_SECRET, // Use secret key from environment variable
+      { expiresIn: '1h' } // Set token expiration (e.g., 1 hour)
+    );
+
+    // Return success response
+    return res.status(201).json({
+      message: 'Signup successful',
+      user: {
+        first_name: insertData.firstname,
+        last_name: insertData.lastname,
+        email: insertData.email,
+      },
+      token, // JWT token for authentication
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Something went wrong during signup' });
   }
-  
-  
+}
+
+
+// Login function (Custom Auth)
 async function login(req, res) {
   const { email, password } = req.body;
-
-  // Sign in the user using email and password
-  const { user, session, error } = await supabase.auth.signInWithPassword({
-    email: email,
-    password: password,
-  });
-
-  if (error) {
- //   return res.status(401).json({ message: 'Invalid credentials' });
-  }
-
-  // Optionally, fetch user details from the 'users' table (if needed)
-  const { data: userData, error: fetchError } = await supabase
+  console.log(req.body);
+  // Fetch user by email from the 'Users' table
+  const { data: user, error: userError } = await supabase
     .from('users')
     .select('*')
-    .eq('id', user.id)
+    .eq('email', email)
     .single();
 
-  if (fetchError) {
- //   return res.status(400).json({ message: fetchError.message });
+  if (userError || !user) {
+    return res.status(401).json({ message: 'Invalid credentials' });
   }
 
+  // Compare the provided password with the hashed password stored in the database
+  const passwordMatch = await bcrypt.compare(password, user.passwordhash);
+
+  if (!passwordMatch) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+
+  // Create a JWT token (you can adjust the payload as needed)
+  const token = jwt.sign(
+    { userId: user.userid, email: user.email, },
+    process.env.JWT_SECRET, // You should store your secret key in an environment variable
+    { expiresIn: '1h' } // Set token expiration (e.g., 1 hour)
+  );
+  console.log(token);
+
+  console.log("res");
+  // Return login success response with user data and token
   return res.status(200).json({
     message: 'Login successful',
-    user: userData,
-    session: session,  // Contains JWT token for authentication
+    user: {
+      first_name: user.firstname,
+      last_name: user.lastname,
+      email: user.email,
+    },
+    token, // JWT token for authentication
   });
 }
-// auth.js
 
-// Update user profile
+// Update user profile (Optional, if required for other functionalities)
 async function updateProfile(req, res) {
-  const { user_id, full_name, avatar_url, bio, profileimgdata, role } = req.body;
+  const { user_id, first_name, last_name } = req.body;
 
-  // Update user's data in the 'users' table
+  // Update user's data in the 'Users' table
   const { data, error } = await supabase
-    .from('users')
+    .from('Users')
     .update({
-      full_name: full_name,
-      avatar_url: avatar_url,
-      bio: bio,
-      profileimgdata: profileimgdata,  // Update the profile image as bytes
-      role: role,                      // Update the user's role (Shop/Customer)
+      first_name,
+      last_name,
     })
-    .eq('id', user_id);  // Use the user's ID to identify the correct record
+    .eq('UserID', user_id); // Use the user's ID to identify the correct record
 
   if (error) {
-   return res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 
   return res.status(200).json({ message: 'Profile updated successfully', user: data });
 }
-// auth.js
 
-// Signup function
-
-module.exports = { login,signup,signup };
+module.exports = { signup, login, updateProfile };

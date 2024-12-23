@@ -23,9 +23,8 @@ router.post('/login', async (req, res) => {
     // Call the login function (from auth.js)
     await login(req, res);
 
-    res.status(200).json({ message: 'Login successful!' });
+    
   } catch (error) {
-    res.status(500).json({ message: error.message });
   }
 });
 

@@ -18,8 +18,8 @@ const supabase = createClient(
 (async () => {
   try {
     const { data, error } = await supabase
-      .from('users') // Replace with a known table name in your Supabase database
-      .select('id') // Replace 'id' with a lightweight column to test connection
+      .from('users ') // Replace with a known table name in your Supabase database
+      .select('userid ') // Replace 'id' with a lightweight column to test connection
       .limit(1);
 
     if (error) {

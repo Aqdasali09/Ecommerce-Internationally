@@ -22,10 +22,13 @@ export default function Step3({ setStep, storeData, setStoreData, handleSubmit }
 
   const handleBannerUpload = (e) => {
     const files = Array.from(e.target.files);
-    const uploadedBanners = files.map((file) => URL.createObjectURL(file));
-    setStoreData((prevData) => ({ ...prevData, banners: [...(storeData.banners || []), ...uploadedBanners] }));
+  
+    setStoreData((prevData) => ({
+      ...prevData,
+      banners: [...(prevData.banners || []), ...files], // Store actual File objects
+    }));
   };
-
+  
   const removeBanner = (index) => {
     const updatedBanners = (storeData.banners || []).filter((_, i) => i !== index);
     setStoreData((prevData) => ({ ...prevData, banners: updatedBanners }));
