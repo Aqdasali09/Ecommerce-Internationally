@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import CONSTANT_URL from "../../constants";
-import { useParams } from "react-router-dom";
 import Slider from "react-slick"; // Import react-slick
+import CONSTANT_URL from "../../constants";
 
-import "slick-carousel/slick/slick.css"; // Import slick carousel styles
 import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css"; // Import slick carousel styles
 const shuffleArray = (array) => {
   return array
     .map((item) => ({ ...item, sortKey: Math.random() })) // Add a random key for sorting
@@ -258,7 +257,7 @@ const Shop = () => {
               }}
             >
               <img
-                src={product.image}
+                src={product.productimages[0]?.imageurl}
                 alt={product.name}
                 className="w-full h-48 object-cover"
               />

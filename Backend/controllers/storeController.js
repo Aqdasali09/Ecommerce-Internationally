@@ -48,13 +48,13 @@ const saveProduct = async (req, res) => {
   const userId = decoded.userId; // Get the userId from the token payload
   console.log("USR"+userId);
   // Query the 'stores' table to get the 'storeid' based on 'userid'
-  const { data: storeData, error: storeError } = await supabase
-    .from('stores')
-    .select('storeid')
-    .eq('userid', userId) // Match userid in the stores table
-    .single(); 
+  // const { data: storeData, error: storeError } = await supabase
+  //   .from('stores')
+  //   .select('storeid')
+  //   .eq('userid', userId) // Match userid in the stores table
+  //   .single(); 
  
-    const storeId = storeData.storeid;  // Store ID from the stores table
+    const storeId = 36;  // Store ID from the stores table
 
   try {
     // Insert product into the "products" table

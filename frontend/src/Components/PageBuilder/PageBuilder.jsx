@@ -1,10 +1,10 @@
 import React, { useState } from "react";
+import CONSTANT_URL from "../../../constants";
+import SideBar from "./SideBar";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
-import SideBar from "./SideBar";
 import StepTracker from "./StepTracker";
-import CONSTANT_URL from "../../../constants";
 
 
 
@@ -68,8 +68,7 @@ function PageBuilder() {
       const result = await response.json();
       if (response.ok) {
         console.log("Store data submitted successfully:", result);
-        alert("Store data saved successfully!");
-      } else {
+        } else {
         console.error("Error submitting store data:", result.message);
         alert("Error saving store data!");
       }
